@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+		"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+		"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.entity">
+	<class name="com.entity.RoomEntity" table="room" schema="luntan">
+		<id name="roomId">
+			<column name="room_id" sql-type="int(11)"/>
+		</id>
+		<property name="roomUserId">
+			<column name="room_user_id" sql-type="int(11)" not-null="true"/>
+		</property>
+		<property name="roomWords">
+			<column name="room_words" sql-type="varchar(255)" not-null="true"/>
+		</property>
+		<property name="roomTitle">
+			<column name="room_title" sql-type="varchar(255)" not-null="true"/>
+		</property>
+	</class>
+	<class name="com.entity.UserEntity" table="user" schema="luntan">
+		<id name="userId">
+			<column name="user_id" sql-type="int(11)"/>
+		</id>
+		<property name="username">
+			<column name="username" sql-type="varchar(255)" not-null="true"/>
+		</property>
+		<property name="password">
+			<column name="password" sql-type="varchar(255)" not-null="true"/>
+		</property>
+		<property name="mobile">
+			<column name="mobile" sql-type="varchar(255)" not-null="true"/>
+		</property>
+		<property name="address">
+			<column name="address" sql-type="varchar(255)" not-null="true"/>
+		</property>
+		<property name="sex">
+			<column name="sex" sql-type="varchar(255)" not-null="true"/>
+		</property>
+	</class>
+	<class name="com.entity.WordsEntity" table="words" schema="luntan">
+		<id name="wordId">
+			<column name="word_id" sql-type="int(11)"/>
+		</id>
+		<property name="wordsUserId">
+			<column name="words_user_id" sql-type="int(11)" not-null="true"/>
+		</property>
+		<property name="wordsRoomId">
+			<column name="words_room_id" sql-type="int(11)" not-null="true"/>
+		</property>
+		<property name="words">
+			<column name="words" sql-type="varchar(255)" not-null="true"/>
+		</property>
+	</class>
+
+
+	</hibernate-mapping>

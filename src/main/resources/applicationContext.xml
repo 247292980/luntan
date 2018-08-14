@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+     http://www.springframework.org/schema/beans 
+     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+     http://www.springframework.org/schema/tx 
+     http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+     http://www.springframework.org/schema/aop 
+     http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+     http://www.springframework.org/schema/context
+     http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+    <!-- 启用注解扫描 -->
+     <context:annotation-config />
+
+    <!-- Hibernate配置 -->
+    <bean id="sessionFactory"
+          class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+        <property name="configLocation">
+            <value>classpath:hibernate.cfg.xml</value>
+        </property>
+    </bean>
+    <!--JDBC事务管理器,根据你的情况使用不同的事务管理器,如果工程中有Hibernate,就用Hibernate的事务管理器 -->
+    <bean id="transactionManager"
+          class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <!--page Spring配置-->
+    <bean id="pageAction" class="com.action.PageAction">
+    </bean>
+
+    <!--user Spring配置-->
+    <bean id="userDao" class="com.dao.impl.UserDao"></bean>
+
+    <bean id="userService" class="com.service.impl.UserService">
+        <property name="userDao" ref="userDao"></property>
+    </bean>
+
+    <bean id="userAction" class="com.action.UserAction">
+        <property name="userService" ref="userService"></property>
+    </bean>
+    <!--room Spring配置-->
+    <bean id="roomDao" class="com.dao.impl.RoomDao"></bean>
+
+    <bean id="roomService" class="com.service.impl.RoomService">
+        <property name="roomDao" ref="roomDao"></property>
+    </bean>
+
+    <bean id="roomAction" class="com.action.RoomAction">
+        <property name="roomService" ref="roomService"></property>
+    </bean>
+    <!--words Spring配置-->
+    <bean id="wordsDao" class="com.dao.impl.WordsDao"></bean>
+
+    <bean id="wordsService" class="com.service.impl.WordsService">
+        <property name="wordsDao" ref="wordsDao"></property>
+    </bean>
+
+    <bean id="wordsAction" class="com.action.WordsAction">
+        <property name="wordsService" ref="wordsService"></property>
+    </bean>
+</beans>

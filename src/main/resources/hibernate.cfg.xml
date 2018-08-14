@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <!-- 根据 <session-factory>创建与mysql的连接 -->
+    <session-factory>
+        <!-- Database connection settings  驱动程序-->
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/luntan</property>
+        <property name="connection.username">root</property>
+        <property name="connection.password">123456789</property>
+        <!--        <property name="connection.username">root</property>
+                <property name="connection.password">123456789</property>
+                不知道为什么hibernate反向生成javabean 刷新hibernate.cfg.xml时就会删掉这两行
+        -->
+        <!-- JDBC connection pool (use the built-in) -->
+        <property name="connection.pool_size">10</property>
+        <!-- SQL dialect SQL方言，这边设定的是MySQL5 -->
+        <property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>
+        <!-- Enable Hibernate's automatic session context management -->
+        <property name="current_session_context_class">
+            org.springframework.orm.hibernate3.SpringSessionContext
+        </property>
+         <!--<property name="current_session_context_class">thread</property> -->
+
+        <!-- Disable the second-level cache -->
+        <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
+
+        <!-- Echo all executed SQL to stdout -->
+        <!--为true表示将Hibernate发送给数据库的sql显示出来 -->
+        <property name="show_sql">false</property>
+        <!--为true表示将Hibernate发送给数据库的sql format显示出来 -->
+        <property name="format_sql">true</property>
+        <!-- Drop and re-create the database schema on startup 自动生成数据表  -->
+        <property name="hbm2ddl.auto">update</property>
+
+        <!--所有table都放在这个表里面
+             使用配置注入-->
+        <mapping resource="Tables.hbm.xml"/>
+        <!--使用annotation注入信息-->
+        <!--<mapping class="com.entity.RoomEntity"/> -->
+
+
+    </session-factory>
+</hibernate-configuration>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+    <!--用于指定存放临时文件的文件夹-->
+    <constant name="struts.multipart.saveDir" value="/tmp"/>
+    <!--1. struts2单独使用时，action的class属性为LoginAction的全路径名，如下：-->
+    <!--2. struts2与spring集成时，class属性是spring的applicationContext.xml中配置的bean的id属性值。-->
+    <constant name="struts.objectFactory" value="spring"/>
+    <!--页面管理器   package节点是整个配置的核心部分。
+    每个package，从语义上讲，其实代表了每一个独立的模块。
+    在这个模块中，你可以定义隶属于这个模块的行为方式，而与其他的模块没有关系。
+    所以，每个package都有独立的interceptor、result-type和action的定义，
+    绝大多数的Runtime配置定义都是通过package节点实现的。-->
+    <package name="page" extends="struts-default" namespace="/">
+        <action name="page_*" class="com.action.PageAction"
+                method="execute">
+            <result name="success" type="dispatcher">{1}.jsp</result>
+        </action>
+
+    </package>
+    <!--用户管理器
+    从一个Action直接跳到另一个Action中，
+    Struts提供了两种结果类型可以实现：chain、redirect。
+    chain能够保留request对象，而redirect不可以。-->
+    <package name="userEntity" extends="struts-default" namespace="/">
+        <action name="user_registerCode" class="com.action.UserAction"
+                method="sendRegisterCode">
+            <result name="success" type="chain">page_userRegister</result>
+            <result name="error" type="chain">page_userRegister</result>
+        </action>
+        <action name="user_register" class="com.action.UserAction"
+                method="register">
+            <result name="success" type="chain">page_userLogin</result>
+            <result name="error" type="chain">page_userRegister</result>
+        </action>
+        <action name="user_login" class="com.action.UserAction"
+                method="login">
+            <result name="success" type="chain">roomMain_show</result>
+            <result name="error" type="chain">page_userLogin</result>
+        </action>
+        <action name="user_rewriteInfo" class="com.action.UserAction"
+                method="rewriteInfo">
+            <result name="success" type="chain">page_userInfo</result>
+            <result name="error" type="chain">page_userRewriteInfo</result>
+        </action>
+        <action name="user_rewritePassword" class="com.action.UserAction"
+                method="rewritePassword">
+            <result name="success" type="chain">roomMain_show</result>
+            <result name="error" type="chain">page_userRewritePassword</result>
+        </action>
+
+        <action name="user_setHead" class="com.action.UserAction"
+                method="setHead">
+            <result name="success" type="chain">roomMain_show</result>
+            <result name="error" type="chain">page_userSetHead</result>
+        </action>
+    </package>
+    <!--房间管理器-->
+    <package name="roomEntity" extends="struts-default" namespace="/">
+        <action name="room_write" class="com.action.RoomAction"
+                method="writeRoom">
+            <result name="success" type="chain">roomMain_show</result>
+            <result name="error" type="chain">page_roomWrite</result>
+        </action>
+        <action name="roomMain_show" class="com.action.RoomAction"
+                method="showRoomMain">
+            <result name="success" type="chain">page_roomMain</result>
+            <result name="error" type="chain"></result>
+        </action>
+        <action name="roomMain_show2" class="com.action.RoomAction"
+                method="showRoomMain2">
+            <result name="success" type="chain">page_roomMain</result>
+            <result name="error" type="chain"></result>
+        </action>
+        <action name="room_open" class="com.action.RoomAction"
+                method="openRoom">
+            <result name="success" type="chain">wordsRoom_show</result>
+            <result name="error" type="chain"></result>
+        </action>
+    </package>
+
+
+    <!--回复管理器-->
+    <package name="wordsEntity" extends="struts-default" namespace="/">
+        <action name="wordsRoom_show" class="com.action.WordsAction"
+                method="showWordsRoom">
+            <result name="success" type="chain">page_room</result>
+            <result name="error" type="chain"></result>
+        </action>
+        <action name="words_write" class="com.action.WordsAction"
+                method="writeWords">
+            <result name="success" type="chain">room_open</result>
+            <result name="error" type="chain"></result>
+        </action>
+    </package>
+</struts>
